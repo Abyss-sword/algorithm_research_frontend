@@ -1,6 +1,20 @@
 {
   "utterance": "p225_040",
   "content_source": "p226_002",
+  "source_dataset": {
+    "title": "CSTR VCTK Corpus (cited via Edinburgh DataShare)",
+    "url": "https://doi.org/10.7488/ds/2645",
+    "distribution_used": "https://huggingface.co/datasets/arampacha/vctk_22kHz",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "changes": "Resampled and cropped input; PCM16 export of the protected and converted derivatives."
+  },
+  "parameters": {
+    "eps": 0.05,
+    "fast_mode": false,
+    "target_speaker": "p225",
+    "method": "vg-projected",
+    "preserve_context": false
+  },
   "experiment": "outputs/quality/refine_dev_pcm16_eval",
   "evidence": "docs/evidence/2026-11-04/quality/refine_dev_pcm16_eval/summary.json",
   "export": "PCM_16",

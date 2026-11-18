@@ -65,8 +65,9 @@ export default function Workbench({ method, example }) {
     sampleController.current?.abort(); sampleController.current = active;
     setLoadingSample(true); setError('');
     try {
-      const input = method.inputs[0];
-      if (method.inputs.length !== 1 || example.input.kind !== input.kind) throw new Error('多输入方法请按各输入框手动选择素材。');
+      const required = method.inputs.filter(input => input.required);
+      const input = method.inputs.length === 1 ? method.inputs[0] : required.length === 1 ? required[0] : null;
+      if (input?.kind !== example.input.kind) throw new Error('请按各输入框手动选择样例素材。');
       const response = await fetch(assetUrl(example.input.src), { signal: active.signal, credentials: 'omit' });
       if (!response.ok) throw new Error('样例素材加载失败，请检查样例路径。');
       let blob = await response.blob();

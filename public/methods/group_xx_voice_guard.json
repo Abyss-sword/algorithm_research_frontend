@@ -5,9 +5,9 @@
   "english": "Voice Guard: Proactive Voice Privacy Defense",
   "category": "主动防御",
   "summary": "在语音波形中优化扰动，尝试降低 AdaIN-VC 复制声纹的能力；提供原始方法与实验性质量改进，需同时检查身份和音质。",
-  "description": "复现 IJCAI 2023 Voice Guard 的时域扰动、可微 mel 特征和心理声学掩蔽约束。官方未发布的评估模块使用独立 ECAPA 替代，MOS/WER 在离线实验中测量。接口只报告身份维，必须先确认干净转换能识别原说话人，再判断保护后转换是否改变身份。新增 vg-projected：额外 1000 步谱投影约束优化，沿用固定参数；小样本有改善，也存在失败，不能承诺人耳不可感知或跨模型防护。默认裁剪，可选保留完整音频；未知说话人的自动识别是 20 人闭集最近身份，不代表真实身份认证。适用 1–8 秒语音，GPU 推荐。示例是云端离线质量实验的真实产物；来源、内容源与摘要见样例目录 sample-provenance.json。",
-  "team": "第XX组（Voice Guard 复现）",
-  "version": "1.1.0",
+  "description": "复现 Li 等发表于 IJCAI 2023 的 Voice Guard：在时域优化扰动，并通过可微 mel 特征和心理声学掩蔽约束其强度。适用 0.25–8 秒的单人语音，每段限 30 MiB，支持 8–96 kHz 单声道或双声道，推荐 GPU。ECAPA 仅在 20 人注册库中匹配，结果不能用于真实身份认证；在线仅评估身份，MOS/WER 见离线实验。谱投影优化为实验选项，已观察到跨句失败，未验证人耳不可感知或通用跨模型防护。处理在服务端串行执行；取消只结束浏览器等待。上传在处理结束时释放，结果由服务维护者按 README 清理。",
+  "team": "Voice Guard 复现组（石锐杰、张书瑞）",
+  "version": "1.2.0",
   "runtime": "算法服务 · GPU（CPU 可用但较慢）",
   "inputs": [
     {
@@ -57,7 +57,7 @@
       "type": "boolean",
       "default": true,
       "required": false,
-      "help": "开启 300/200 步；关闭使用服务配置的完整步数。时长取决于片段与设备，快速模式不保证质量。"
+      "help": "开启 300/200 步；关闭时默认 3000/1500 步。时长取决于片段与设备，快速模式不保证质量。"
     },
     {
       "name": "target_speaker",
@@ -97,7 +97,7 @@
   "examples": [
     {
       "title": "p225 质量改进的云端实测样例",
-      "description": "PCM16 保护音频 MOSNet=3.275、Whisper WER=0；保护身份 p225，转换后 p246。仅为 20 人闭集、小样本结果。离线内容源为 p226_002；网页自动选取内容时可能产生不同结果。",
+      "description": "试听 p225_040 的原音与保护后语音。该 PCM16 产物的预测 MOSNet=3.275、Whisper WER=0，闭集身份为 p225、转换后为 p246。离线实验使用 p226_002 作转换内容源；在线参考音频留空时自动选取，结果可能不同。首次联调可切换到原始 VG 和快速模式。",
       "input": {
         "src": "samples/group_xx_voice_guard/input.wav",
         "kind": "audio",
